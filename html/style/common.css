@@ -1,0 +1,108 @@
+html,body {
+    background-color: #F6F6F6;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+img {
+    display: block;
+}
+a {text-decoration: none;color: #313131}
+a:hover {color: #EB5005;}
+/* 这是公共属性 */
+.header {
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    background-color: #F6F6F6;
+}
+.header .logo {
+    font-size: 0;
+    text-align: center;
+}
+.header .logo a{
+    font-size: 40px;
+    line-height: 4em;
+    color: #EB5005;
+    white-space:nowrap;
+    text-decoration: none;
+    -webkit-transition: all .41s ease-in-out;
+    transition: all .41s ease-in-out;
+}
+.header .logo a::after {
+    content: '(￣ε(#￣)☆';
+}
+.header .logo a:hover::after {
+    content: '╰╮o(￣皿￣///)';
+}
+.header .nav-list {
+    width: 1111px;
+    margin: 0 auto;
+    border-top:1px solid #E9E9E9;
+    text-align: center;
+    line-height: 60px;
+}
+.header .nav-list ul {
+    display: block;
+}
+.header .nav-list .blog-bar {
+    display: none;
+    font-size: 20px;
+}
+.header .nav-list li {
+    display: inline-block;
+    margin: 0 3em;
+    line-height: 60px;
+}
+/* 这是头部属性 */
+.wrapper {
+    overflow: hidden;
+    width: 1100px; 
+    margin: 0 auto;
+}
+.banner {
+    position: fixed;
+    top: 0;
+    margin-top: 221px;
+}
+.banner img{
+    width: 1100px;
+}
+.content {
+    background-color: grey;
+    position: relative;
+    z-index: 5;
+    margin-top: 221px;
+    -webkit-transition: margin-top .82s ease-in-out;
+    transition: margin-top .82s ease-in-out;
+}
+/* 这是bannner */
+.footer {
+    position: relative;
+    background-color: #F6F6F6;
+    font-size: 14px;
+    color: #616161;
+}
+.footer a {
+    color: #616161;
+}
+
+.footer .foot-list,.footer .web-info {
+    width: 1111px;
+    margin: 0 auto;
+    text-align: center;
+}
+.footer .foot-list {
+    border-top:  1px solid #E9E9E9;
+}
+.footer .foot-list ul{
+    width: 90%;
+    margin: 20px auto 0 auto;
+}
+.footer .foot-list li{
+    display: inline-block;
+    margin: 5px 10px;
+}
+.footer .web-info {
+    padding:10px 0 20px 0;
+}
+/* 这是尾部代码 */

@@ -1,0 +1,49 @@
+.content {
+    width: 100%;
+    background-color: #F6F6F6;
+    overflow: hidden;
+    padding: 50px 0 100px 0;
+    position: relative;
+}
+
+.main {
+    width: 720px;
+    margin: 0 auto;
+    /* padding-right: 110px; */
+}
+
+.main .title{
+    font-size: 30px;
+    line-height: 1.7em;
+}
+.main .stuff {
+    text-align: right;
+    border-bottom: 1px solid #E9E9E9;
+    padding-bottom: 20px;
+}
+.main .stuff span{
+    margin-right: 10px;
+}
+
+.main .main-text {
+    margin-top: 25px;
+}
+
+.dir{
+    display: none;
+    position: absolute;
+    margin-left:860px;
+    top: 130px;
+    padding-left: 20px;
+    border-left:1px solid #E9E9E9;
+}
+.dir {
+    position: fixed;
+}
+
+.dir h3 a{
+    color: #616161;
+}
+.dir .h4 li {
+    margin-left: 10px;
+}
