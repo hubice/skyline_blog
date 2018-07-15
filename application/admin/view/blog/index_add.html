@@ -1,0 +1,191 @@
+<div class="sc_form_body" id="ice-blog-index-add">
+
+    <form method="post" action="{:url('@admin/blog/index_add_http')}" class="ice-form layui-form layui-form-pane">
+
+
+
+        <div class="layui-form-item">
+
+            <label class="layui-form-label">博客名称</label>
+
+            <div class="layui-input-block">
+
+                <input type="text" name="title" autocomplete="off" placeholder="博客名称"
+
+                       datatype="*1-255" errormsg="用户名至少1个字符!" nullmsg="请输入博客名称!" class="layui-input" />
+
+            </div>
+
+        </div>
+
+
+
+        <div class="layui-form-item">
+
+            <div class="layui-inline">
+
+                <label class="layui-form-label">seo_title</label>
+
+                <div class="layui-input-block">
+
+                    <input type="text" name="seo_title" id="date1" autocomplete="off" placeholder="seo描述"
+
+                      datatype="*1-255" errormsg="seo描述至少1个字符!" nullmsg="请输入seo描述!"    class="layui-input">
+
+                </div>
+
+            </div>
+
+            <div class="layui-inline">
+
+                <label class="layui-form-label">seo_keywords</label>
+
+                <div class="layui-input-inline">
+
+                    <input type="text" name="seo_keywords" autocomplete="off" placeholder="seo关键字"
+
+                      datatype="*1-255" errormsg="seo关键字至少1个字符!" nullmsg="请输入seo关键字!"     class="layui-input">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="layui-form-item">
+
+            <label class="layui-form-label">description</label>
+
+            <div class="layui-input-block">
+
+                <input type="text" name="seo_description" autocomplete="off" placeholder="seo描述"
+
+                       datatype="*1-255" errormsg="seo描述至少1个字符!" nullmsg="请输入seo描述!" class="layui-input" />
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <div class="layui-form-item">
+
+            <label class="layui-form-label">标签名称</label>
+
+            <div class="layui-input-block">
+
+                <input type="hidden" class="ice-blog-tags" name="tag_str">
+
+                <select lay-filter="ice-blog-tags">
+
+                    <option value=""></option>
+
+                    {volist name="tags" id="vo"}
+
+                    <option value="{$vo['id']}">{$vo['name']}</option>
+
+                    {/volist}
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="layui-form-item">
+
+            <label class="layui-form-label">内容</label>
+
+            <div class="layui-input-block">
+
+                <textarea name="content" id="content" placeholder="请输入内容" style="height: 250px" class="layui-textarea"></textarea>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="layui-form-item">
+
+            <div class="layui-input-block">
+
+                <button class="layui-btn">保存</button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+
+    var layedit = layui.layedit;
+
+    layedit.set({
+
+        uploadImage: {
+
+            url: "{:url('@admin/blog/upload')}" //接口url
+
+            ,type: 'post' //默认post
+
+        }
+
+    });
+
+    layedit.build('content'); //建立编辑器
+
+
+
+    var form = layui.form;
+
+    form.render();
+
+
+
+    IceAjax.POST($('#ice-blog-index-add .ice-form'),function (data) {
+
+        if (data.status == 0) {
+
+            // 成功
+
+            IceAlert.success(data.msg,function () {
+
+                window.location.reload();
+
+            })
+
+        } else {
+
+            IceAlert.error(data.msg)
+
+        }
+
+    });
+
+
+
+    formSelects.on({
+
+        layFilter: 'ice-blog-tags',	//绑定select lay-filter
+
+        left: '【',		//显示的符号left
+
+        right: '】',		//显示的符号right
+
+        separator: '',		//多选分隔符
+
+        id: 'ice-blog-index-add',
+
+    });
+
+</script>

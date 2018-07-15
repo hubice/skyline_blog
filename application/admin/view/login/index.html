@@ -1,0 +1,56 @@
+{extend name="common/base" /}
+
+{block name='meta'}
+<title>{$title}</title>
+{/block}
+{block name='css'}{/block}
+{block name='js'}
+<script>
+    IceAjax.POST($('#ice-login .ice-form'),function (data) {
+        if (data.status == 0) {
+            // 成功
+            window.location.href = '{:url("@admin/index")}'
+        } else {
+            IceAlert.error(data.msg)
+        }
+    });
+</script>
+{/block}
+
+{block name='body'}
+<div class="layui-layout-admin sc_login" id="ice-login">
+    <div class="sc_login_inner">
+        <div class="sc_login_content">
+            <div class="sc_login_right">
+                <form method="post" class="ice-form layui-form" action="{:url('@admin/login/login')}">
+                    <dl>
+                        <dt>Pan站点管理框架</dt>
+                        <dd>
+                            <label>
+                                <span class="icon"><i class="fa fa-user"></i></span>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="username" autocomplete="off" placeholder="用户名" datatype="s4-16" errormsg="用户名至少4个字符!" nullmsg="请输入用户名!" class="layui-input" />
+                                </div>
+                            </label>
+                        </dd>
+                        <dd>
+                            <label>
+                                <span class="icon"><i class="fa fa-key"></i></span>
+                                <div class="layui-input-inline">
+                                    <input type="password" name="password" autocomplete="off" placeholder="密码" datatype="*6-18" errormsg="密码范围在6~18位之间!" nullmsg="请输入密码!" class="layui-input" />
+                                </div>
+                            </label>
+                        </dd>
+                        <dd>
+                            <p>
+                                <button class="layui-btn">登 录</button>
+                            </p>
+                        </dd>
+                    </dl>
+                </form>
+            </div>
+            <div class="sc_login_left"></div>
+        </div>
+    </div>
+</div>
+{/block}

@@ -1,0 +1,41 @@
+<!--这里是尾部-->
+
+<footer class="footer">
+
+    <div class="foot-list">
+
+        <ul>
+
+            {foreach $footerBlogs as $vo}
+
+            <li><a href="/{$vo['id']}">{$vo['title']}</a></li>
+
+            {/foreach}
+
+        </ul>
+
+    </div>
+
+    <div class="web-info">
+	
+        皖ICP备18006584号-1 | Copyright © 2018 Design by Naice
+
+    </div>
+
+</footer>
+
+</body>
+
+<script src="__STATIC__/index/js/lib/jquery-3.3.1.min.js"></script>
+
+<script src="__STATIC__/index/js/common.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?33e055817407b1e9eac8ec87c3008b89";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</html>

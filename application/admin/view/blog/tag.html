@@ -1,0 +1,105 @@
+<div class="sc_body">
+    <div class="sc_title sc_body_title">
+        <h5>标签管理</h5>
+        <div class="sc_title_btn">
+            <button class='layui-btn layui-btn-sm' data-ice-box-title="添加数据" data-ice-box-width="500px" data-ice-box-url="{:url('@admin/blog/tag_add')}">
+                <i class="layui-icon">&#xe654;</i> 新增</button>
+        </div>
+    </div>
+    <div class="fadeIn animated">
+        <form class="layui-form">
+            <table class="layui-table" lay-size="sm" lay-even="" lay-skin="nob">
+                <colgroup>
+                    <col width="50">
+                    <col width="100">
+                    <col width="100">
+                    <col width="150">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" name="id[]" lay-skin="primary" lay-filter="allChoose"/>
+                    </th>
+                    <th>名称</th>
+                    <th>排序</th>
+                    <th>引用数量</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {volist name="tags['data']" id="vo"}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="id[]" data-ice-id="{$vo['id']}" lay-skin="primary" class="ice-checkout-item"/>
+                    </td>
+                    <td>{$vo['name']}</td>
+                    <td>{$vo['sort']}</td>
+                    <td>{$vo['num']}</td>
+                    <td>
+                        <a data-ice-box-title="修改数据" data-ice-box-width="500px" data-ice-box-url="{:url('@admin/blog/tag_upload','id='.$vo['id'])}">编辑</a>
+                        <span class="sc_explode">|</span>
+                        <a data-ice-del="{$vo['id']}">删除</a>
+                    </td>
+                </tr>
+                {/volist}
+
+                </tbody>
+            </table>
+        </form>
+        <div class="sc_pages">
+            <ul class="pagination">
+                <li><span>共{$page['allCount']}条记录&nbsp;&nbsp;第{$page['currPage']}页/共{$page['allPage']}页</span></li>
+                <li class="ice-page-item" data-ice-url="/admin/blog/tag/page={$page['pre']}"><a>上一页</a></li>
+
+                {for start="$page['for_sta']" end="$page['for_end'] + 1" name="k" }
+                {if condition = "$page['currPage'] == $k"}
+                <li class="ice-page-item" data-ice-url="/admin/blog/tag/page={$k}"><a style="color: red">{$k}</a></li>
+                {else}
+                <li class="ice-page-item" data-ice-url="/admin/blog/tag/page={$k}"><a>{$k}</a></li>
+                {/if}
+                {/for}
+                <li class="ice-page-item" data-ice-url="/admin/blog/tag/page={$page['next']}"><a>下一页</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var form = layui.form;
+    form.render();
+
+    form.on('checkbox(allChoose)', function(){
+        var child = $(this).parents('table').find('.ice-checkout-item');
+        child.prop('checked',$(this).prop('checked'));
+        form.render('checkbox');
+    });
+
+    $('[data-ice-box-title]').click(function () {
+        var _title = $(this).attr('data-ice-box-title');
+        var _url = $(this).attr('data-ice-box-url');
+        var _width = $(this).attr('data-ice-box-width');
+        IceAlert.open(_url,_title,_width);
+    });
+
+    $('body').on('click','.ice-page-item',function(){
+        var hase = $(this).attr('data-ice-url');
+        window.location.hash = hase;
+    });
+
+    $('body').on('click','[data-ice-del]',function () {
+        var id = $(this).attr('data-ice-del');
+        IceAlert.alert('确定删除?',function () {
+            $.post("{:url('@admin/blog/tag_delete')}",{id:id},function (data) {
+                if (data.status == 0) {
+                    // 成功
+                    IceAlert.success(data.msg,function () {
+                        window.location.reload();
+                    })
+                } else {
+                    IceAlert.error(data.msg)
+                }
+            })
+        })
+        return false;
+    });
+</script>

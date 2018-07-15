@@ -1,0 +1,28 @@
+@media screen and (max-width: 950px) {
+
+   html .header .nav-list,html .footer .foot-list,html .footer .web-info,html .wrapper,html .banner img {
+
+        width: 95%;
+
+    }
+}
+
+
+
+@media screen and (max-width: 650px) {
+
+    html .main {
+
+        width: 95%;
+
+    }
+
+}
+
+
+
+@media screen and (max-width: 480px) {
+
+    
+
+}

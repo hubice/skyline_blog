@@ -1,0 +1,40 @@
+<div class="sc_form_body" id="ice-blog-tag-add">
+    <form method="post" action="{:url('@admin/blog/tag_add_http')}" class="ice-form layui-form layui-form-pane">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">标签名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" autocomplete="off" placeholder="标签名称"
+                       datatype="s1-25" errormsg="用户名至少1个字符!" nullmsg="请输入标签名称!" class="layui-input" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" name="sort" autocomplete="off" placeholder="排序，数字越大越靠前." value="0"
+                       datatype="n1-2" errormsg="用户名最多2位数!" nullmsg="请输入标签排序!" class="layui-input" />
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn">保存</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var form = layui.form;
+    form.render();
+
+    IceAjax.POST($('#ice-blog-tag-add .ice-form'),function (data) {
+        if (data.status == 0) {
+            IceAlert.success(data.msg,function () {
+                window.location.reload();
+            })
+        } else {
+            IceAlert.error(data.msg)
+        }
+    });
+</script>

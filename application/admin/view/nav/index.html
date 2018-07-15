@@ -1,0 +1,117 @@
+<div class="sc_body" id="ice-blog-index">
+    <div class="sc_title sc_body_title">
+        <h5>nav管理</h5>
+        <div class="sc_title_btn">
+            <button class='layui-btn layui-btn-sm' data-ice-box-title="添加数据" data-ice-box-width="800px" data-ice-box-url="{:url('@admin/blog/index_add')}">
+                <i class="layui-icon">&#xe654;</i> 新增</button>
+        </div>
+    </div>
+    <div class="fadeIn animated">
+        <form class="layui-form">
+            <table class="layui-table" lay-size="sm" lay-even="" lay-skin="nob">
+                <colgroup>
+                    <col width="50">
+                    <col width="150">
+                    <col width="50">
+                    <col width="100">
+                    <col width="150">
+                    <col width="50">
+                    <col width="100">
+                    <col width="100">
+                    <col width="150">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" name="id[]" lay-skin="primary" lay-filter="allChoose"/>
+                    </th>
+                    <th>标题</th>
+                    <th>字数</th>
+                    <th>观看次数</th>
+                    <th>标签</th>
+                    <th>状态</th>
+                    <th>创建时间</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {volist name="blog['data']" id="vo"}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="id[]" data-ice-id="{$vo['id']}" lay-skin="primary" class="ice-checkout-item"/>
+                    </td>
+                    <td>{$vo['title']}</td>
+                    <td>{$vo['size']}</td>
+                    <td>{$vo['page_view']}</td>
+                    <td>{$vo['tag_str']}</td>
+                    <td>{$vo['s_status']}</td>
+                    <td>{$vo['s_create_time']}</td>
+                    <td>{$vo['s_update_time']}</td>
+                    <td>
+                        <a data-ice-box-title="修改数据" data-ice-box-width="800px" data-ice-box-url="{:url('@admin/blog/index_upload','id='.$vo['id'])}">编辑</a>
+                        <span class="sc_explode">|</span>
+                        <a data-ice-del="{$vo['id']}">删除</a>
+                    </td>
+                </tr>
+                {/volist}
+
+                </tbody>
+            </table>
+        </form>
+        <div class="sc_pages">
+            <ul class="pagination">
+                <li><span>共{$page['allCount']}条记录&nbsp;&nbsp;第{$page['currPage']}页/共{$page['allPage']}页</span></li>
+                <li class="ice-page-item" data-ice-url="/admin/blog/index/page={$page['pre']}"><a>上一页</a></li>
+
+                {for start="$page['for_sta']" end="$page['for_end'] + 1" name="k" }
+                {if condition = "$page['currPage'] == $k"}
+                <li class="ice-page-item" data-ice-url="/admin/blog/index/page={$k}"><a style="color: red">{$k}</a></li>
+                {else}
+                <li class="ice-page-item" data-ice-url="/admin/blog/index/page={$k}"><a>{$k}</a></li>
+                {/if}
+                {/for}
+                <li class="ice-page-item" data-ice-url="/admin/blog/index/page={$page['next']}"><a>下一页</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var form = layui.form;
+    form.render();
+
+    form.on('checkbox(allChoose)', function(){
+        var child = $(this).parents('table').find('.ice-checkout-item');
+        child.prop('checked',$(this).prop('checked'));
+        form.render('checkbox');
+    });
+
+    $('[data-ice-box-title]').click(function () {
+        var _title = $(this).attr('data-ice-box-title');
+        var _url = $(this).attr('data-ice-box-url');
+        var _width = $(this).attr('data-ice-box-width');
+        IceAlert.open(_url,_title,_width);
+    });
+
+    $('#ice-blog-index').on('click','.ice-page-item',function(){
+        var hase = $(this).attr('data-ice-url');
+        window.location.hash = hase;
+    });
+
+    $('#ice-blog-index').on('click','[data-ice-del]',function () {
+        var id = $(this).attr('data-ice-del');
+        IceAlert.alert('确定删除?',function () {
+            $.post("{:url('@admin/blog/index_delete')}",{id:id},function (data) {
+                if (data.status == 0) {
+                    // 成功
+                    IceAlert.success(data.msg,function () {
+                        window.location.reload();
+                    })
+                } else {
+                    IceAlert.error(data.msg)
+                }
+            })
+        })
+    });
+</script>

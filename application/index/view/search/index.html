@@ -1,0 +1,64 @@
+{include file="common/header" /}
+
+<link rel="stylesheet" href="__STATIC__/index/style/index.css">
+
+<div class="wrapper">
+
+    <div class="banner">
+
+        <!--<img src="__STATIC__/index/imgs/bg.jpg" alt="">-->
+
+    </div>
+
+    <div class="content">
+
+        <ul>
+
+            {foreach $blogInfo as $vo}
+
+            <li>
+
+                <h3>「
+
+                    <?php
+
+                        $tagsarr = isset($vo['tag_str']) ? explode(',',$vo['tag_str']) : [];
+
+                        $i = true;
+
+                        foreach($tagsarr as $tvo) {
+
+                            if ($i) {
+
+                                echo '';
+
+                                $i = false;
+
+                            } else {
+
+                                echo ',';
+
+                            }
+
+                            echo '<a href="/list/'.$tvo.'">'.$tvo.'</a>';
+
+                        }
+
+                    ?>
+
+                」</h3>
+
+                <p><a href="/{$vo['id']}">{$vo['title']}</a></p>
+
+            </li>
+
+            {/foreach}
+
+        </ul>
+
+    </div>
+
+</div>
+
+{include file="common/footer" /}
+

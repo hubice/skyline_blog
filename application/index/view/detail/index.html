@@ -1,0 +1,107 @@
+{include file="common/header" /}
+
+<link rel="stylesheet" href="__STATIC__/index/style/detail.css">
+
+<div class="wrapper">
+
+    <div class="banner">
+
+        <!--<img src="__STATIC__/index/imgs/bg.jpg" alt="">-->
+
+    </div>
+
+    <div class="content">
+
+        <div class="main">
+
+            <h1 class="title">{$blogDetail['title']}</h1>
+
+            <div class="stuff">
+
+                <span>阅读 {$blogDetail['page_view']}</span>
+
+                <span>字数 {$blogDetail['size']}</span>
+
+                <span>{$blogDetail['s_update_time']|date="Y-m-d",###}</span>
+
+                <span>#
+
+                <?php
+
+                    $tagsarr = isset($blogDetail['tag_str']) ? explode(',',$blogDetail['tag_str']) : [];
+
+                    $i = true;
+
+                    foreach($tagsarr as $tvo) {
+
+                        if ($i) {
+
+                            echo '';
+
+                            $i = false;
+
+                        } else {
+
+                            echo ',';
+
+                        }
+
+                        echo '<a href="/list/'.$tvo.'">'.$tvo.'</a>';
+
+                    }
+
+                ?>
+
+                </span>
+
+            </div>
+
+            <div class="main-text">
+
+                {$blogDetail['data']['content']|htmlspecialchars_decode}
+
+            </div>
+
+        </div>
+
+        <div class="dir">
+
+            <!--<ul>-->
+
+                <!--<li>-->
+
+                    <!--<h3><a href="">标题12内容标题</a></h3>-->
+
+                    <!--<ul class="h4">-->
+
+                        <!--<li><a href="">内容标题121212内容标题1</a></li>-->
+
+                        <!--<li><a href="">内容标题12112内容标题</a></li>-->
+
+                    <!--</ul>-->
+
+                <!--</li>-->
+
+                <!--<li>-->
+
+                    <!--<h3><a href="">标题标题内容标题1</a></h3>-->
+
+                    <!--<ul class="h4">-->
+
+                        <!--<li><a href="">内容标题1内容标题21</a></li>-->
+
+                        <!--<li><a href="">内容标题12内容标题21</a></li>-->
+
+                    <!--</ul>-->
+
+                <!--</li>-->
+
+            <!--</ul>-->
+
+        </div>
+
+    </div>
+
+</div>
+
+{include file="common/footer" /}

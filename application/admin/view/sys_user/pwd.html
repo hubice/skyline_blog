@@ -1,0 +1,45 @@
+<div class="sc_body" id="ice-user-pwd">
+    <div class="sc_title sc_body_title"><h5>密码管理</h5></div>
+    <div class="fadeIn animated">
+        <form method="post" class="ice-form layui-form" action="{:url('@admin/sys_user/changePwd')}">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>修改密码</legend>
+            </fieldset>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-required">原密码</label>
+                <div class="layui-input-block ">
+                    <input type="password" name="oldPassword" autocomplete="off" placeholder="原密码"
+                           datatype="*6-18" errormsg="密码范围在6~18位之间!" nullmsg="请输入原密码!" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-required">修改密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="newPassword" autocomplete="off" placeholder="修改密码"
+                           datatype="*6-18" errormsg="密码范围在6~18位之间!" nullmsg="请输入修改后密码!" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-required">重复修改密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="reNewPassword" autocomplete="off" placeholder="重复修改密码"
+                           datatype="*" recheck="newPassword" errormsg="您两次输入的账号密码不一致！" nullmsg="请重复输入修改后密码!" class="layui-input" />
+                </div>
+            </div>
+            <button class="layui-btn">更 新</button>
+        </form>
+    </div>
+</div>
+<script>
+    var form = layui.form;
+    form.render();
+
+    IceAjax.POST($('#ice-user-pwd .ice-form'),function (data) {
+        if (data.status == 0) {
+            // 成功
+            IceAlert.success(data.msg)
+        } else {
+            IceAlert.error(data.msg)
+        }
+    });
+</script>

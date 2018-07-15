@@ -1,0 +1,102 @@
+{extend name="common/base" /}
+
+{block name='meta'}
+<title>{$title}</title>
+{/block}
+
+{block name='css'}
+<style>
+    .ice-nav-item a {
+        border-bottom: 1px solid #eee;
+    }
+</style>
+{/block}
+
+{block name='js'}
+<script>
+    IceRoute.addChangeFire(function () {
+        var routeObj = layui.router();
+        if (routeObj['path'].length <= 0 || !routeObj['search']) {
+            return false;
+        }
+        //加载页面
+        window.IceHttp && window.IceHttp.abort();
+        window.IceHttp = $.get('/'+routeObj['path'].join('/'),routeObj['search'],function (data) {
+            $('#sc_body').append(data);
+        });
+        $('#sc_body').children().remove();
+    });
+
+    // 初始化一次
+    $(function () {
+        (function url() {
+            var _hash = window.location.hash;
+            if (_hash == '' || _hash == '#') {
+                $_url = $('.ice-nav-item .active').attr('data-ice-url');
+            } else {
+                $_url = _hash[_hash.length - 1] == '/' ? _hash.substring(0,_hash.length-1) : _hash+'/';
+            }
+            window.location.hash = $_url
+        })();
+
+        $('body').on('click','.ice-nav-item',function () {
+            $('.ice-nav-item a').removeClass('active');
+            $(this).find('a').addClass('active');
+            window.location.hash = $(this).find('a').attr('data-ice-url');
+        })
+    });
+</script>
+{/block}
+
+{block name='body'}
+<div class="layui-layout-admin">
+    <div class="layui-tab sc_side_tab">
+        <ul class="layui-tab-title">
+
+            <li class="layui-this"><span><i class="fa fa-user-o"></i></span>{$Think.session.user_info.username}</li>
+            {volist name="menu[0]" id="vo" offset="1"}
+            <li><span><i class="{$vo.ico}"></i></span>{$vo.title}</li>
+            {/volist}
+
+            <dl class="layui-nav layui-nav-tree sc_side_more">
+                <dd class="layui-nav-item layui-nav-itemed">
+                    <a></a>
+                    <dl class="layui-nav-child">
+                        <dd><a>清除缓存</a></dd>
+                        <dd><a href="{:url('@admin/login/logout')}">退出登录</a></dd>
+                    </dl>
+                </dd>
+            </dl>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="sc_title"></div>
+
+            {volist name="menu[0]" id="vo" key="ko"}
+            {if condition="$ko == 1"}
+            <div class="layui-tab-item layui-show">
+            {else}
+            <div class="layui-tab-item">
+            {/if}
+                <menu class="sc_side_main">
+                    <ul class="sc_side_menu">
+                        {if condition="isset($menu[$vo.id])"}
+                            {volist name="menu[$vo.id]" id="vc" key="kc"}
+                            {if condition="$ko == 1 && $kc == 1"}
+                            <li class="layui-nav-item ice-nav-item"><a data-ice-url="{$vc.node}" class="active">
+                                <i class="{$vc.ico}"></i>&nbsp;&nbsp;{$vc.title}</a></li>
+                            {else}
+                            <li class="layui-nav-item ice-nav-item"><a data-ice-url="{$vc.node}">
+                                <i class="{$vc.ico}"></i>&nbsp;&nbsp;{$vc.title}</a></li>
+                            {/if}
+                            {/volist}
+                        {/if}
+                    </ul>
+                </menu>
+            </div>
+            {/volist}
+        </div>
+    </div>
+    <div class="layui-body" id="sc_body">
+    </div>
+</div>
+{/block}
