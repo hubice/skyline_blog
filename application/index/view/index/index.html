@@ -6,7 +6,7 @@
 
     <div class="banner">
 
-        <img src="__STATIC__/index/imgs/bg<?php echo rand(1,4); ?>.jpg" alt="">
+        <img src="__STATIC__/index/imgs/bg<?php echo rand(1,4); ?>.jpg" alt="bg" title="bg">
     </div>
 
     <div class="content">
@@ -39,7 +39,7 @@
 
                             }
 
-                            echo '<a href="/list/'.$tvo.'">'.$tvo.'</a>';
+                            echo '<a href="/list/'.$tvo.'.html">'.$tvo.'</a>';
 
                         }
 
@@ -47,7 +47,7 @@
 
                 」</h3>
 
-                <p><a href="/{$vo['id']}">{$vo['title']}</a></p>
+                <p><a href="/{$vo['id']}.html">{$vo['title']}</a></p>
 
             </li>
 
