@@ -6,22 +6,9 @@
 </head>
 <body>
 <pre>
-    这里时支付页面 支付金额时10$
-    应用程序显示名称：TestApp
-    SANDBOX API证书
-    沙盒帐户
-    Skyline@test2.com
-    客户ID
-    ACEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6
-    秘密
-    隐藏
-
-    注意：生成新密钥时，仍保留原始密码。客户机密的最大数量是两个。客户端密钥处于启用或禁用状态。
-
-    创建	秘密	状态	行动
-    2018年9月16日	EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28	启用
-    •••
-    产生新的秘密
+    这是第一种支付方式
+    第二种支付方式
+    <a href="/test/index/index2">点击</a>
 </pre>
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <div id="paypal-button-container"></div>
@@ -70,7 +57,7 @@
         },
 
         payment: function(data, actions) {
-            // 支付
+            // 点击支付
             return actions.payment.create({
                 payment: {
                     transactions: [
@@ -83,9 +70,9 @@
         },
 
         onAuthorize: function(data, actions) {
-            // 授权
+            // 支付回调
             return actions.payment.execute().then(function() {
-                window.alert('Payment Complete!');
+                window.alert('支付成功!');
             });
         }
 

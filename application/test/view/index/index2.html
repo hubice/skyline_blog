@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+重要提示：使用PayPal REST /paymentsAPI接受信用卡付款受到限制。相反，您可以使用Braintree Direct接受信用卡付款。
+
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+<div id="paypal-button"></div>
+
+<script>
+    paypal.Button.render({
+        env: 'sandbox', // Or 'production'
+        // Set up the payment:
+        // 1. Add a payment callback
+        payment: function(data, actions) {
+            // 2. Make a request to your server
+            return actions.request.post('/test/index/ApiCreatePayment')
+                .then(function(res) {
+                    // 3. Return res.id from the response
+                    return res.id;
+                });
+        },
+        // Execute the payment:
+        // 1. Add an onAuthorize callback
+        onAuthorize: function(data, actions) {
+            // 2. Make a request to your server
+            return actions.request.post('/my-api/execute-payment/', {
+                paymentID: data.paymentID,
+                payerID:   data.payerID
+            })
+                .then(function(res) {
+                    // 3. Show the buyer a confirmation message.
+                });
+        }
+    }, '#paypal-button');
+</script>
+</body>
+</html>
