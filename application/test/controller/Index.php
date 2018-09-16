@@ -35,7 +35,7 @@ class Index extends Controller
             "EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28"
         );
         $token = $auto->getAccessToken([]);
-        file_put_contents("paypal.debug","TOKEN : ".json_encode($token)."\n",FILE_APPEND);
+        //file_put_contents("paypal.debug","TOKEN : ".json_encode($token)."\n",FILE_APPEND);
 
         header("Authorization",$token);
         $this->apiContext = new ApiContext(
