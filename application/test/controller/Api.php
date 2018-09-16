@@ -14,11 +14,6 @@ class Api extends Controller
 {
     private $apiContext;
 
-    // 下单
-    public function createpayment() {
-
-    }
-
     //完成下单
     public function executepayment() {
 
@@ -44,8 +39,8 @@ class Api extends Controller
         $this->apiContext = $apiContext;
     }
 
-    // 第一步
-    private function createPayments()
+    // 下单
+    public function createpayment()
     {
         //支付方式
         $payer = new Payer();
