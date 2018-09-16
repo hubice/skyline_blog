@@ -34,8 +34,7 @@ class Index extends Controller
             "AcEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6",
             "EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28"
         );
-        $token = $auto->getAccessToken("NAICE_TOKEN");
-
+        $token = $auto->getAccessToken([]);
         file_put_contents("paypal.debug","TOKEN : ".json_encode($token)."\n",FILE_APPEND);
 
         header("Authorization",$token);
