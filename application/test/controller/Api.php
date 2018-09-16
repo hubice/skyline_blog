@@ -66,7 +66,7 @@ class Api extends Controller
         //发送
         try {
             $payment->create($this->apiContext,null,[
-                "Authorization" => ($this->autoToken)['access_token']
+                "Authorization: Bearer ".$this->autoToken['access_token']
             ]);
             $approvalUrl = $payment->getApprovalLink();
             return json_encode(array(
