@@ -93,6 +93,7 @@ class Api extends Controller
             'Accept' => 'application/json',
             'Accept-Language' => 'en_US'
         ],"ACEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6:EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28");
+
         var_dump($res);
         die;
     }
@@ -123,7 +124,7 @@ class Api extends Controller
         curl_setopt($curl, CURLOPT_USERPWD, $basicAuth);
         $res = curl_exec($curl);
         curl_close($curl);
-        return $res;
+        return json_decode($res,true);
     }
 
 }
