@@ -34,12 +34,19 @@ class Index extends Controller
             "AcEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6",
             "EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28"
         );
-        $token = $auto->getAccessToken([]);
+        //$token = $auto->getAccessToken(['mode' => 'SANDBOX']);
         //file_put_contents("paypal.debug","TOKEN : ".json_encode($token)."\n",FILE_APPEND);
 
-        header("Authorization",$token);
+        //header("Authorization",$token);
         $this->apiContext = new ApiContext(
             $auto
+        );
+
+        $this->apiContext->setConfig(
+            array(
+                'mode' => 'SANDBOX',
+                'cache.FileName' => "cache/temp"
+            )
         );
     }
 
