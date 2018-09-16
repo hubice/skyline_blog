@@ -11,6 +11,6 @@ class Index extends Controller
     }
 
     public function putCheck() {
-        file_put_contents("/paypal.debug",$_POST);
+        file_put_contents("paypal.debug",var_export($_POST));
     }
 }
