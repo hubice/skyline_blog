@@ -16,8 +16,8 @@ class Api extends Controller
 
     public function _initialize()
     {
-        $this->autoToken();
         $this->initEnv();
+        $this->autoToken();
     }
 
     // 初始化
@@ -115,7 +115,7 @@ class Api extends Controller
     private function Curl($path,$post_data,$headers = [],$basicAuth) {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL,$path);
-        curl_setopt($curl, CURLOPT_HEADER, 1);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_POST, 1);
