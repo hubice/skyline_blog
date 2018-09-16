@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付</title>
+</head>
+<body>
+<pre>
+    这里时支付页面 支付金额时10$
+    应用程序显示名称：TestApp
+    SANDBOX API证书
+    沙盒帐户
+    Skyline@test2.com
+    客户ID
+    ACEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6
+    秘密
+    隐藏
+
+    注意：生成新密钥时，仍保留原始密码。客户机密的最大数量是两个。客户端密钥处于启用或禁用状态。
+
+    创建	秘密	状态	行动
+    2018年9月16日	EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28	启用
+    •••
+    产生新的秘密
+</pre>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<div id="paypal-button-container"></div>
+<script>
+    // Render the PayPal button
+
+    paypal.Button.render({
+
+        // Set your environment
+
+        /**
+         * 重要
+         * 这里时沙箱模式,正式的需要调整
+         */
+
+        env: 'sandbox', // sandbox | production
+
+        // Specify the style of the button
+
+        style: {
+            layout: 'horizontal',  // horizontal | vertical
+            size:   'responsive',    // medium | large | responsive
+            shape:  'rect',      // pill | rect
+            color:  'gold'       // gold | blue | silver | black
+        },
+
+        // Specify allowed and disallowed funding sources
+        //
+        // Options:
+        // - paypal.FUNDING.CARD
+        // - paypal.FUNDING.CREDIT
+        // - paypal.FUNDING.ELV
+
+        funding: {
+            allowed: [ paypal.FUNDING.CARD, paypal.FUNDING.CREDIT ],
+            disallowed: [ ]
+        },
+
+        // PayPal Client IDs - replace with your own
+        // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+
+        // 设置sandID
+        client: {
+            sandbox:    'AcEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6',
+            production: '<insert production client id>'
+        },
+
+        payment: function(data, actions) {
+            // 支付
+            return actions.payment.create({
+                payment: {
+                    transactions: [
+                        {
+                            amount: { total: '0.01', currency: 'USD' }
+                        }
+                    ]
+                }
+            });
+        },
+
+        onAuthorize: function(data, actions) {
+            // 授权
+            return actions.payment.execute().then(function() {
+                window.alert('Payment Complete!');
+            });
+        }
+
+    }, '#paypal-button-container');
+
+</script>
+</body>
+</html>
