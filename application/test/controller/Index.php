@@ -10,7 +10,9 @@ class Index extends Controller
         return $this->fetch();
     }
 
-    public function putCheck() {
-        file_put_contents("paypal.debug",var_export($_POST));
+    public function check() {
+        file_put_contents("paypal.debug",json_encode(input("")));
+        var_dump(input(""));
+        die;
     }
 }
