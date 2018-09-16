@@ -6,7 +6,20 @@
 </head>
 <body>
 
+<pre>
+这个时 REST API 中间加一层
 
+优点：自由 符合WEB端开发，但相对难度会高点
+缺点：SDK乱
+
+还有一种时 原生APP 可以支持信用卡。
+
+-->IPN 通知
+
+异步通知，基本可以实现小网站的功能
+</pre>
+
+<img src="https://developer.paypal.com/img/docs/checkout/setting-up-paypal-payment-server-integration.svg" alt="">
 
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
@@ -21,6 +34,7 @@
             // 2. Make a request to your server
             return actions.request.post('/test/api/createpayment/')
                 .then(function(res) {
+                    console.log(res);
                     // 3. Return res.id from the response
                     return res.id;
                 });
