@@ -96,6 +96,7 @@ class Api extends Controller
             $res = $payment->execute($execution,$this->apiContext,null,[
                 "Authorization" => "Bearer ".$this->autoToken['access_token']
             ]);
+            // 里面是数据
             var_dump($res);
             die;
         } catch (\Exception $e) {
