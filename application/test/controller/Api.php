@@ -95,10 +95,10 @@ class Api extends Controller
     // -----------------
 
     public function autoToken() {
-        if (!empty(cache("Token"))) {
-            $this->autoToken = cache("Token");
-            return;
-        }
+//        if (!empty(cache("Token"))) {
+//            $this->autoToken = cache("Token");
+//            return;
+//        }
 
         $path = "https://api.paypal.com";
 
@@ -131,7 +131,7 @@ class Api extends Controller
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post_data));
         curl_setopt($curl, CURLOPT_USERPWD, $basicAuth);
         $res = curl_exec($curl);
         curl_close($curl);
@@ -139,4 +139,5 @@ class Api extends Controller
     }
 
 }
+
 
