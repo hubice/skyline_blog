@@ -32,7 +32,7 @@
         // 1. Add a payment callback
         payment: function(data, actions) {
             // 2. Make a request to your server
-            return actions.request.post('/test/api/createpayment/')
+            return actions.request.post('/test/Api/createpayment/')
                 .then(function(res) {
                     console.log(res);
                     // 3. Return res.id from the response
@@ -43,7 +43,7 @@
         // 1. Add an onAuthorize callback
         onAuthorize: function(data, actions) {
             // 2. Make a request to your server
-            return actions.request.post('/test/api/executepayment/', {
+            return actions.request.post('/test/Api/executepayment/', {
                 paymentID: data.paymentID,
                 payerID:   data.payerID
             })

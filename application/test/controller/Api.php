@@ -24,6 +24,11 @@ class Api extends Controller
 
     }
 
+    public function _initialize()
+    {
+        $this->initEnv();
+    }
+
     // 初始化
     private function initEnv() {
         $apiContext = new ApiContext(
