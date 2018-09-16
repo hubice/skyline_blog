@@ -112,7 +112,8 @@ class Api extends Controller
             'grant_type' => 'client_credentials'
         ],[
             'Accept: application/json',
-            'Accept-Language: en_US'
+            'Accept-Language: en_US',
+            'Content-Type: application/x-www-form-urlencoded'
         ],"ACEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6:EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28");
 
         cache("Token",$res,['expire' => 3500]);
