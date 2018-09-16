@@ -54,7 +54,7 @@ class Index extends Controller
     // 需要去请求paypal接口
     public function ApiCreatePayment() {
         $this->auto();
-        //file_put_contents("paypal.debug",json_encode(input("")));
+        file_put_contents("paypal.debug","LOG:------",FILE_APPEND);
 
         $paymentID = input("post.paymentID");
         $payerID = input("post.payerID");
