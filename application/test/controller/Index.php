@@ -7,6 +7,7 @@ use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
+use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Exception\PayPalConnectionException;
 use PayPal\Rest\ApiContext;
 use think\Controller;
@@ -27,33 +28,32 @@ class Index extends Controller
         return $this->fetch();
     }
 
-    public function _initialize()
-    {
+    public function auto() {
+        // 获取token
         $this->apiContext = new ApiContext(
+            new OAuthTokenCredential(
             "AcEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6",
             "EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28"
+            )
         );
-    }
-
-    public function auto() {
-
     }
 
     // 点击按钮
     // 需要去请求paypal接口
     public function ApiCreatePayment() {
+        $this->auto();
         //file_put_contents("paypal.debug",json_encode(input("")));
 
         $paymentID = input("post.paymentID");
         $payerID = input("post.payerID");
 
+
         $payer = new Payer();
         $payer->setPaymentMethod("paypal");
 
         $redirectUrls = new RedirectUrls();
-
-        $redirectUrls->setReturnUrl(url("test/index/CheckSuccess",'',false,true))
-            ->setCancelUrl(url("test/index/CheckCancel",'',false,true));
+        $redirectUrls->setReturnUrl(url("test/index/CheckSuccess",'',false,true)."php")
+            ->setCancelUrl(url("test/index/CheckCancel",'',false,true)."php");
 
         $amount = new Amount();
         $amount->setCurrency("USD")
@@ -88,6 +88,7 @@ class Index extends Controller
     }
 
     public function CheckSuccess() {
+        $this->auto();
         //file_put_contents("paypal.debug",json_encode(input("")));
 
         $paymentId = $_GET['paymentId'];
