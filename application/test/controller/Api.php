@@ -4,6 +4,7 @@ namespace app\test\controller;
 use PayPal\Api\Amount;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
@@ -65,13 +66,13 @@ class Api extends Controller
 
         //发送
         try {
-            $payment->create($this->apiContext,null,[
+            $response = $payment->create($this->apiContext,null,[
                 "Authorization" => "Bearer ".$this->autoToken['access_token']
             ]);
             $approvalUrl = $payment->getApprovalLink();
             return json_encode(array(
                 'code' => 0,
-                'id' => $approvalUrl,
+                'id' => $response->getId(),
                 'msg' => ''
             ));
         } catch (\Exception $e) {
@@ -81,15 +82,33 @@ class Api extends Controller
 
     //完成下单
     public function executepayment() {
+        $paymentID = input("paymentID");
+        $payerID = input("payerID");
+        $payment = Payment::get($paymentID,$this->apiContext);
 
+        $execution = new PaymentExecution();
+        $execution->setPayerId($payerID);
+
+        //发送
+        try {
+            $res = $payment->execute($execution,$this->apiContext,null,[
+                "Authorization" => "Bearer ".$this->autoToken['access_token']
+            ]);
+            var_dump($res);
+            die;
+        } catch (\Exception $e) {
+            die($e);
+        }
     }
 
     public function resSuccess() {
-
+        var_dump("你成功了");
+        die;
     }
 
     public function resCancel() {
-
+        var_dump("你取消了付款");
+        die;
     }
 
     // -----------------
