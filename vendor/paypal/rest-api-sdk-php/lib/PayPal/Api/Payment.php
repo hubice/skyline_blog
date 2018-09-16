@@ -564,14 +564,14 @@ class Payment extends PayPalResourceModel
      * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
      * @return Payment
      */
-    public function create($apiContext = null, $restCall = null)
+    public function create($apiContext = null, $restCall = null, $headers = null)
     {
         $payLoad = $this->toJSON();
         $json = self::executeCall(
             "/v1/payments/payment",
             "POST",
             $payLoad,
-            null,
+            $headers,
             $apiContext,
             $restCall
         );

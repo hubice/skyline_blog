@@ -14,13 +14,9 @@ class Api extends Controller
 {
     private $apiContext;
 
-    //完成下单
-    public function executepayment() {
-
-    }
-
     public function _initialize()
     {
+        $this->autoToken();
         $this->initEnv();
     }
 
@@ -29,12 +25,12 @@ class Api extends Controller
         $apiContext = new ApiContext(
             new OAuthTokenCredential(
                 "ACEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6",
-                'EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28'
+             "EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28"
             )
         );
         $apiContext->setConfig([
-                'mode' => 'sandbox '
-            ]);
+            'mode' => 'sandbox'
+        ]);
 
         $this->apiContext = $apiContext;
     }
@@ -68,7 +64,9 @@ class Api extends Controller
 
         //发送
         try {
-            $payment->create($this->apiContext);
+            $payment->create($this->apiContext,null,[
+                "Authorization"
+            ]);
             $approvalUrl = $payment->getApprovalLink();
             return json_encode(array(
                 'code' => 0,
@@ -80,6 +78,30 @@ class Api extends Controller
         }
     }
 
+    public function autoToken() {
+        $path = "https://api.paypal.com";
+
+        $configAll = $this->apiContext->getConfig();
+        if ($configAll['mode'] == "sandbox")
+            $path = "https://api.sandbox.paypal.com";
+
+        $path .= "/v1/oauth2/token";
+
+        $res = $this->curl($path,[
+            'grant_typ' => 'client_credentials'
+        ],[
+            'Accept' => 'application/json',
+            'Accept-Language' => 'en_US'
+        ],"ACEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6:EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28");
+        var_dump($res);
+        die;
+    }
+
+    //完成下单
+    public function executepayment() {
+
+    }
+
     public function resSuccess() {
 
     }
@@ -87,4 +109,22 @@ class Api extends Controller
     public function resCancel() {
 
     }
+
+    // -----------------
+    // curl
+    private function Curl($path,$post_data,$headers = [],$basicAuth) {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL,$path);
+        curl_setopt($curl, CURLOPT_HEADER, 1);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($curl, CURLOPT_USERPWD, $basicAuth);
+        $res = curl_exec($curl);
+        curl_close($curl);
+        return $res;
+    }
+
 }
+
