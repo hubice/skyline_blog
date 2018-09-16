@@ -84,7 +84,9 @@ class Api extends Controller
     public function executepayment() {
         $paymentID = input("paymentID");
         $payerID = input("payerID");
-        $payment = Payment::get($paymentID,$this->apiContext);
+        $payment = Payment::get($paymentID,$this->apiContext,null,[
+            "Authorization" => "Bearer ".$this->autoToken['access_token']
+        ]);
 
         $execution = new PaymentExecution();
         $execution->setPayerId($payerID);

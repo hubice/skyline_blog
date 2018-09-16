@@ -587,7 +587,7 @@ class Payment extends PayPalResourceModel
      * @param PayPalRestCall $restCall is the Rest Call Service that is used to make rest calls
      * @return Payment
      */
-    public static function get($paymentId, $apiContext = null, $restCall = null)
+    public static function get($paymentId, $apiContext = null, $restCall = null, $headers = null)
     {
         ArgumentValidator::validate($paymentId, 'paymentId');
         $payLoad = "";
@@ -595,7 +595,7 @@ class Payment extends PayPalResourceModel
             "/v1/payments/payment/$paymentId",
             "GET",
             $payLoad,
-            null,
+            $headers,
             $apiContext,
             $restCall
         );
