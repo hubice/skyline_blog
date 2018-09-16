@@ -87,6 +87,7 @@ class Index extends Controller
             $payment->create($this->apiContext);
 
             $approvalUrl = $payment->getApprovalLink();
+            file_put_contents("paypal.debug","RES:".json_encode($approvalUrl),FILE_APPEND);
 
         } catch (PayPalConnectionException $ex) {
             echo $ex->getCode();
@@ -114,7 +115,7 @@ class Index extends Controller
         try {
             // Execute payment
             $result = $payment->execute($execution, $this->apiContext);
-            var_dump($result);
+            file_put_contents("paypal.debug","RESTUR:". json_encode($result),FILE_APPEND);
         } catch (PayPalConnectionException $ex) {
             echo $ex->getCode();
             echo $ex->getData();
