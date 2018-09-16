@@ -13,6 +13,7 @@ use think\Controller;
 class Api extends Controller
 {
     private $apiContext;
+    private $autoToken;
 
     public function _initialize()
     {
@@ -65,7 +66,7 @@ class Api extends Controller
         //发送
         try {
             $payment->create($this->apiContext,null,[
-                "Authorization"
+                "Authorization" => ($this->autoToken)['access_token']
             ]);
             $approvalUrl = $payment->getApprovalLink();
             return json_encode(array(
@@ -76,25 +77,6 @@ class Api extends Controller
         } catch (\Exception $e) {
             die($e);
         }
-    }
-
-    public function autoToken() {
-        $path = "https://api.paypal.com";
-
-        $configAll = $this->apiContext->getConfig();
-        if ($configAll['mode'] == "sandbox")
-            $path = "https://api.sandbox.paypal.com";
-
-        $path .= "/v1/oauth2/token";
-
-        $res = $this->curl($path,[
-            'grant_type' => 'client_credentials'
-        ],[
-            'Accept' => 'application/json',
-            'Accept-Language' => 'en_US'
-        ],"ACEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6:EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28");
-        var_dump($res);
-        die;
     }
 
     //完成下单
@@ -111,11 +93,37 @@ class Api extends Controller
     }
 
     // -----------------
+
+    public function autoToken() {
+        if (!empty(cache("Token"))) {
+            $autoToken = cache("Token");
+            return;
+        }
+
+        $path = "https://api.paypal.com";
+
+        $configAll = $this->apiContext->getConfig();
+        if ($configAll['mode'] == "sandbox")
+            $path = "https://api.sandbox.paypal.com";
+
+        $path .= "/v1/oauth2/token";
+
+        $res = $this->curl($path,[
+            'grant_type' => 'client_credentials'
+        ],[
+            'Accept' => 'application/json',
+            'Accept-Language' => 'en_US'
+        ],"ACEO-n5A0vS98xv9WaTBzT5CuYj3_j14-L-_lgBVFrkN8zWYkRKRbrIwhxwi1cjiV-34G39h4pVY7iV6:EAz3ysJE5P5NygcVv8q5y4x-T2G2LckmaaDNE0TLNG6PuUDOGNJQhVKKevdQrwA4_xst2BxLhqXoqf28");
+
+        cache("Token",$res,['expire' => 3500]);
+        $autoToken = $res;
+    }
+
     // curl
-    private function Curl($path,$post_data,$headers = [],$basicAuth) {
+    private function Curl($path,$post_data,$headers = [],$basicAuth = "") {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL,$path);
-        curl_setopt($curl, CURLOPT_HEADER, 1);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_POST, 1);
@@ -123,7 +131,7 @@ class Api extends Controller
         curl_setopt($curl, CURLOPT_USERPWD, $basicAuth);
         $res = curl_exec($curl);
         curl_close($curl);
-        return $res;
+        return json_decode($res,true);
     }
 
 }
