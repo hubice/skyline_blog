@@ -40,6 +40,8 @@ $(function () {
 
 function banner_init() {
 
+    //var header = $('.header').height();
+
     var header = $('.header').height();
 
     var banner = $('.banner').height();

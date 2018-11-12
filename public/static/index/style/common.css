@@ -13,6 +13,10 @@ img {
 
 }
 
+pre {
+    overflow: auto;
+}
+
 a {text-decoration: none;color: #313131}
 
 a:hover {color: #EB5005;}
